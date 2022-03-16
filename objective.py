@@ -9,7 +9,7 @@ class Objective(BaseObjective):
 
     parameters = {
         'l1_ratio': [0.9, 0.5],
-        'reg': [0.1],
+        'reg': [0.1, 0.01],
         'fit_intercept': [False]
     }
 
@@ -42,14 +42,13 @@ class Objective(BaseObjective):
         # Mind the duality gap: safer rules for the Lasso - Appendix A.4
         scaled_beta = -np.sqrt(
             (1-self.l1_ratio) * self.lmbda * self.n_samples) * beta
-        diff = np.hstack(
-            (diff, scaled_beta))
+        diff = np.hstack([diff, scaled_beta])
         theta = diff / (self.lmbda * self.l1_ratio * self.n_samples)
-        theta /= norm(self.X.T @ theta[0:self.n_samples] +
+        theta /= norm(self.X.T @ theta[:self.n_samples] +
                       np.sqrt((self.lmbda * self.l1_ratio * self.n_samples)) *
-                      theta[self.n_samples:len(theta)], ord=np.inf)
+                      theta[self.n_samples:], ord=np.inf)
 
-        d_obj = self.lmbda * self.l1_ratio * (self.y @ theta[0:self.n_samples])
+        d_obj = self.lmbda * self.l1_ratio * (self.y @ theta[:self.n_samples])
         d_obj -= (self.lmbda * self.l1_ratio) ** 2 * \
             self.n_samples / 2 * (theta ** 2).sum()
 
