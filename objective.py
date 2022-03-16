@@ -1,3 +1,5 @@
+# Author: Mathurin Massias <mathurin.massias@gmail.com>
+
 import numpy as np
 from numpy.linalg import norm
 
@@ -26,37 +28,30 @@ class Objective(BaseObjective):
 
     def compute(self, beta):
         # compute residuals
-        a = self.l1_ratio * self.lmb
-        b = (1 - self.L1_ratio) * self.lmbd
+        a = self.l1_ratio * self.lmbda
+        b = (1 - self.l1_ratio) * self.lmbda
+        X, y = self.X, self.y
+        n_samples, n_features = X.shape
 
         if self.fit_intercept:
-            beta, intercept = beta[:self.n_features], beta[self.n_features:]
-        diff = self.y - self.X @ beta
+            beta, intercept = beta[:n_features], beta[n_features:]
+        diff = y - X @ beta
 
         if self.fit_intercept:
             diff -= intercept
 
         # compute primal objective
-        p_obj = (1. / (2 * self.n_samples) * diff @ diff
-                 + a * abs(beta).sum() + b * (beta ** 2).sum())
+        p_obj = (1. / (2 * n_samples) * diff @ diff
+                 + a * abs(beta).sum() + b * (beta ** 2).sum() / 2)
 
         # Compute dual with Lasso/Enet equivalence coming from
         # Mind the duality gap: safer rules for the Lasso - Appendix A.4
-        scaling = max(1, norm(self.X.T @ (- diff) + b * beta, ord=np.inf) / a)
-        d_obj = (norm(self.y) ** 2 / (2 * self.n_samples)
-                 - norm(self.y - diff / scaling) / (2 * self.n_samples)
-                 - b * norm(beta / scaling) ** 2 / 2)
-        # scaled_beta = -np.sqrt(
-        #     (1-self.l1_ratio) * self.lmbda * self.n_samples) * beta
-        # diff = np.hstack([diff, scaled_beta])
-        # theta = diff / (self.lmbda * self.l1_ratio * self.n_samples)
-        # theta /= norm(self.X.T @ theta[:self.n_samples] +
-        #               np.sqrt((self.lmbda * self.l1_ratio * self.n_samples)) *
-        #               theta[self.n_samples:], ord=np.inf)
-
-        # d_obj = self.lmbda * self.l1_ratio * (self.y @ theta[:self.n_samples])
-        # d_obj -= (self.lmbda * self.l1_ratio) ** 2 * \
-        #     self.n_samples / 2 * (theta ** 2).sum()
+        theta = - diff
+        scaling = max(1, norm(X.T @ theta + b * n_samples * beta,
+                              ord=np.inf) / (a * n_samples))
+        d_obj = (norm(y) ** 2 / 2
+                 - norm(y + theta / scaling) ** 2 / 2
+                 - b * n_samples * norm(beta / scaling) ** 2 / 2) / n_samples
 
         return dict(value=p_obj,
                     support_size=(beta != 0).sum(),
