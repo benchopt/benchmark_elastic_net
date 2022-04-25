@@ -13,7 +13,7 @@ class Solver(BaseSolver):
     name = 'skglm'
 
     install_cmd = 'conda'
-    requirements = ['pip:git+https://github.com/mathurinm/sgklm.git@main']
+    requirements = ['pip:git+https://github.com/mathurinm/skglm.git@main']
 
     def set_objective(self, X, y, l1_ratio, lmbda, fit_intercept):
         self.X, self.y, self.l1_ratio, self.lmbda = X, y, l1_ratio, lmbda
