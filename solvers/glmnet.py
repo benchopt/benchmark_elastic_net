@@ -55,7 +55,7 @@ class Solver(BaseSolver):
 
         glmnet_fit = self.glmnet(self.X, self.y, intercept=self.fit_intercept,
                                  standardize=False, maxit=maxit,
-                                 thresh=tol ** 2.3, **fit_dict)
+                                 thresh=tol ** 1.8, **fit_dict)
         results = dict(zip(glmnet_fit.names, list(glmnet_fit)))
         as_matrix = robjects.r['as']
         coefs = np.array(as_matrix(results["beta"], "matrix"))

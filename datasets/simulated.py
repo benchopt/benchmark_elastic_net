@@ -8,7 +8,7 @@ class Dataset(BaseDataset):
 
     parameters = {
         'n_samples, n_features': [
-            (50, 100),
+            (500, 2000),
         ],
         'rho': [0.6],
     }
