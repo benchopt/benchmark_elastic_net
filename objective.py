@@ -10,9 +10,9 @@ class Objective(BaseObjective):
     name = "Enet"
 
     parameters = {
-        'l1_ratio': [0.9, 0.5],
-        'reg': [0.1, 0.01],
-        'fit_intercept': [False]
+        'l1_ratio': [1, 0.5],
+        'reg': [0.1],
+        'fit_intercept': [False, True]
     }
 
     def __init__(self, l1_ratio=.5, reg=1.0, fit_intercept=False):
@@ -23,7 +23,7 @@ class Objective(BaseObjective):
     def set_data(self, X, y):
         self.X, self.y = X, y
         self.n_samples, self.n_features = self.X.shape
-        self.lmbda_max = np.max(np.abs(X.T @ y)) / len(y)
+        self.lmbda_max = np.max(np.abs(X.T @ y)) / (len(y) * self.l1_ratio)
         self.lmbda = self.reg * self.lmbda_max
 
     def compute(self, beta):
