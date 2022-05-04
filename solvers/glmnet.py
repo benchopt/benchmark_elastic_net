@@ -52,6 +52,10 @@ class Solver(BaseSolver):
         maxit = 0 if tol == INFINITY else 1_000_000
         fit_dict = {"lambda": self.lmbda,
                     "alpha": self.l1_ratio}
+        # glmnet always scales y before fitting, and undoes the scaling for
+        # prediction. Hence the solution will differ from e.g. sklearn's if y
+        # is not centered with unit variance. `standardize.response` is for
+        # multitask and will not help here.
 
         glmnet_fit = self.glmnet(self.X, self.y, intercept=self.fit_intercept,
                                  standardize=False, maxit=maxit,
