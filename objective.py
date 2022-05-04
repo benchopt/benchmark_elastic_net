@@ -23,7 +23,8 @@ class Objective(BaseObjective):
     def set_data(self, X, y):
         self.X, self.y = X, y
         self.n_samples, self.n_features = self.X.shape
-        self.lmbda_max = np.max(np.abs(X.T @ y)) / len(y)
+        y_cen = y - np.mean(y) if self.fit_intercept else y
+        self.lmbda_max = np.max(np.abs(X.T @ y_cen)) / (len(y) * self.l1_ratio)
         self.lmbda = self.reg * self.lmbda_max
 
     def compute(self, beta):
