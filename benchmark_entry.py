@@ -4,4 +4,5 @@ from benchopt.runner import run_benchmark
 
 
 benchmark_obj = Benchmark("./")
-df_results = run_benchmark(benchmark_obj, plot_result=True)
+df_results = run_benchmark(
+    benchmark_obj, plot_result=True, solver_names=['sklearn'])
