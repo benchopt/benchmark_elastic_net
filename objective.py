@@ -27,6 +27,9 @@ class Objective(BaseObjective):
         self.lmbda_max = np.max(np.abs(X.T @ y_cen)) / (len(y) * self.l1_ratio)
         self.lmbda = self.reg * self.lmbda_max
 
+    def get_one_solution(self):
+        return np.zeros([self.X.shape[1] + self.fit_intercept])
+
     def compute(self, beta):
         # compute residuals
         a = self.l1_ratio * self.lmbda

@@ -24,6 +24,4 @@ class Dataset(BaseDataset):
             self.n_samples, self.n_features, rho=self.rho,
             random_state=self.random_state)
 
-        data = dict(X=X, y=y)
-
-        return self.n_features, data
+        return dict(X=X, y=y)
