@@ -12,7 +12,7 @@ class Objective(BaseObjective):
     parameters = {
         'l1_ratio': [0.9, 0.5],
         'reg': [0.1, 0.01],
-        'fit_intercept': [False]
+        'fit_intercept': [False, True]
     }
 
     def __init__(self, l1_ratio=.5, reg=1.0, fit_intercept=False):
