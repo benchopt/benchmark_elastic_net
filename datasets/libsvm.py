@@ -11,7 +11,7 @@ class Dataset(BaseDataset):
     name = "libsvm"
 
     parameters = {
-        'dataset': ["bodyfat", "leukemia", "rcv1.binary"],
+        'dataset': ["bodyfat", "leukemia", "rcv1.binary", "news20.binary"],
     }
 
     install_cmd = 'conda'
@@ -26,6 +26,4 @@ class Dataset(BaseDataset):
         if self.X is None:
             self.X, self.y = fetch_libsvm(self.dataset)
 
-        data = dict(X=self.X, y=self.y)
-
-        return self.X.shape[1], data
+        return dict(X=self.X, y=self.y)

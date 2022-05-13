@@ -12,7 +12,7 @@ class Objective(BaseObjective):
     parameters = {
         'l1_ratio': [0.9, 0.5],
         'reg': [0.1, 0.01],
-        'fit_intercept': [False]
+        'fit_intercept': [False, True]
     }
 
     def __init__(self, l1_ratio=.5, reg=1.0, fit_intercept=False):
@@ -26,6 +26,9 @@ class Objective(BaseObjective):
         y_cen = y - np.mean(y) if self.fit_intercept else y
         self.lmbda_max = np.max(np.abs(X.T @ y_cen)) / (len(y) * self.l1_ratio)
         self.lmbda = self.reg * self.lmbda_max
+
+    def get_one_solution(self):
+        return np.zeros([self.X.shape[1] + self.fit_intercept])
 
     def compute(self, beta):
         # compute residuals
