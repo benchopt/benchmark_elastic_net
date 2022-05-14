@@ -52,11 +52,11 @@ class Solver(BaseSolver):
                 t_new = (1 + np.sqrt(1 + 4 * t_old ** 2)) / 2
                 w_old = w.copy()
                 z -= self.X.T @ (self.X @ z - self.y) / (L * n_samples)
-                w = prox_1d(z, self.l1_ratio, self.lmbda / L)
+                w = prox_enet(z, self.l1_ratio, self.lmbda / L)
                 z = w + (t_old - 1.) / t_new * (w - w_old)
             else:
                 w -= self.X.T @ (self.X @ w - self.y) / (L * n_samples)
-                w = prox_1d(w, self.l1_ratio, self.lmbda / L)
+                w = prox_enet(w, self.l1_ratio, self.lmbda / L)
 
         self.w = w
 
