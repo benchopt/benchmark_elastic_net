@@ -3,17 +3,10 @@ from benchopt import BaseSolver, safe_import_context
 with safe_import_context() as import_ctx:
     import numpy as np
     from scipy import sparse
-    from numba import njit
 
 
-@njit
-def st_vec(x, mu):
-    return np.sign(x) * np.maximum(0., np.abs(x) - mu)
-
-
-@njit
-def prox_1d(x, l1_ratio, alpha):
-    prox = st_vec(x, l1_ratio * alpha)
+def prox_enet(x, l1_ratio, alpha):
+    prox = np.sign(x) * np.maximum(0, np.abs(x) - l1_ratio * alpha)
     prox /= (1 + (1 - l1_ratio) * alpha)
     return prox
 
@@ -22,8 +15,7 @@ class Solver(BaseSolver):
     name = 'pgd'  # proximal gradient descent, optionally accelerated
     stopping_strategy = "callback"
 
-    # any parameter defined here is accessible as a class attribute
-    parameters = {'use_acceleration': [True, False]}
+    parameters = {'use_acceleration': [False]}
     references = [
         'I. Daubechies, M. Defrise and C. De Mol, '
         '"An iterative thresholding algorithm for linear inverse problems '
