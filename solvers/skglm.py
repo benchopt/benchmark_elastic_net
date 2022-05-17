@@ -13,8 +13,12 @@ class Solver(BaseSolver):
     name = 'skglm'
 
     install_cmd = 'conda'
-    requirements = [
-        'pip:skglm'
+    requirements = ['pip:skglm']
+    references = [
+        'Q. Bertrand and Q. Klopfenstein and P.-A. Bannier and G. Gidel'
+        'and M. Massias'
+        '"Beyond L1: Faster and Better Sparse Models with skglm", '
+        'https://arxiv.org/abs/2204.07826'
     ]
 
     def set_objective(self, X, y, l1_ratio, lmbda, fit_intercept):
