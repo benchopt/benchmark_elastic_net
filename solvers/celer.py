@@ -29,6 +29,11 @@ class Solver(BaseSolver):
                                fit_intercept=fit_intercept, tol=0)
         warnings.filterwarnings('ignore', category=ConvergenceWarning)
 
+    @staticmethod
+    def get_next(previous):
+        "Linear growth for n_iter."
+        return previous + 1
+
     def run(self, n_iter):
         if n_iter == 0:
             self.coef = np.zeros([self.X.shape[1] + self.fit_intercept])
@@ -41,11 +46,5 @@ class Solver(BaseSolver):
                 coef = np.r_[coef, self.enet.intercept_]
             self.coef = coef
 
-    @staticmethod
-    def get_next(previous):
-        "Linear growth for n_iter."
-        return previous + 1
-
     def get_result(self):
         return self.coef
-
