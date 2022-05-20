@@ -7,10 +7,10 @@ reproducible the comparisons of optimization algorithms.
 This benchmark is dedicated to elastic net regression:
 
 
-$$ \\min_w \\frac{1}{2n} \Vert y - Xw \\Vert^2 + \\lambda * (\\rho \\Vert w \\Vert_1 + \\frac{1 - \\rho}{2} \\Vert w \\Vert^2)$$
+$$ \\min_w \\frac{1}{2n} \\Vert y - Xw \\Vert^2 + \\lambda \\ (\\rho \\Vert w \\Vert_1 + \\frac{1 - \\rho}{2} \\Vert w \\Vert^2)$$
 
 where $n$ (or ``n_samples``) stands for the number of samples, $p$ (or ``n_features``) stands for the number of features
-, $\rho \\in (0, 1]$ is the ``l1_ratio`` and
+, $\\rho \\in (0, 1]$ is the ``l1_ratio`` and
 
 
 $$y \\in \\mathbb{R}^n , \\ X = [x_1^\\top, \\dots, x_n^\\top]^\\top \\in \\mathbb{R}^{n \\times p}$$
