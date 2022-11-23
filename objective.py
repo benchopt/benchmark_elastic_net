@@ -7,6 +7,7 @@ from benchopt import BaseObjective
 
 
 class Objective(BaseObjective):
+    min_benchopt_version = "1.3"
     name = "Enet"
 
     parameters = {
