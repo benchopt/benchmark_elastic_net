@@ -7,6 +7,7 @@ from benchopt import BaseObjective
 
 
 class Objective(BaseObjective):
+    min_benchopt_version = "1.3"
     name = "Enet"
 
     parameters = {
@@ -61,6 +62,6 @@ class Objective(BaseObjective):
                     support_size=(beta != 0).sum(),
                     duality_gap=p_obj - d_obj,)
 
-    def to_dict(self):
+    def get_objective(self):
         return dict(X=self.X, y=self.y, l1_ratio=self.l1_ratio,
                     lmbda=self.lmbda, fit_intercept=self.fit_intercept)
