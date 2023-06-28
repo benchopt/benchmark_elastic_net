@@ -28,8 +28,7 @@ class Solver(BaseSolver):
 
         self.run(1)
 
-    @staticmethod
-    def get_next(stop_val):
+    def get_next(self, stop_val):
         return stop_val + 1
 
     def run(self, n_iter):

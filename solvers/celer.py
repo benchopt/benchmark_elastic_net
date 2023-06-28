@@ -29,8 +29,7 @@ class Solver(BaseSolver):
                                fit_intercept=fit_intercept, tol=0)
         warnings.filterwarnings('ignore', category=ConvergenceWarning)
 
-    @staticmethod
-    def get_next(previous):
+    def get_next(self, previous):
         "Linear growth for n_iter."
         return previous + 1
 
